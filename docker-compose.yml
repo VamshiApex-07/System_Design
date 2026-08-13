@@ -1,53 +1,39 @@
 services:
-  ngnix:
-    image: nginx:latest
+   nginx:
+    image: nginx
     ports:
-      - "800:80"
+      - 8000:80  
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - server1
-      - server2
-      - server3
-
-  server1:
-    build: ./Server
+     
+   server1:
+    build: ./server
     env_file:
-      - ./Server/.env
+      - ./server/.env
     environment:
-      - SERVER_NAME=Server 1 (Port 3000)
-      - REDIS_URL=redis://redis:6379
+      - SERVER_NAME="pehla server"
     ports:
-      - "3000:3000"
-    depends_on:
-      - redis
+      - 5001:7000  
 
-  server2:
-    build: ./Server
+   server2:
+    build: ./server
     env_file:
-      - ./Server/.env
+      - ./server/.env
     environment:
-      - SERVER_NAME=Server 2 (Port 3001)
-      - REDIS_URL=redis://redis:6379
+      - SERVER_NAME="dusra server"  
     ports:
-      - "3001:3000"
-    depends_on:
-      - redis
+      - 5002:7000    
 
-  server3:
-    build: ./Server
+   server3:
+    build: ./server
     env_file:
-      - ./Server/.env
+      - ./server/.env
     environment:
-      - SERVER_NAME=Server 3 (Port 3002)
-      - REDIS_URL=redis://redis:6379
+      - SERVER_NAME="teesra server"
     ports:
-      - "3002:3000"
-    depends_on:
-      - redis
+      - 5003:7000
 
-  redis:
+   redis:
     image: redis:alpine
-    container_name: redis
     ports:
-      - "6379:6379"
+      - 6379:6379
