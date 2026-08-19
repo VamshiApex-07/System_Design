@@ -2,6 +2,99 @@ services:
   nginx:
     image: nginx
     ports:
-      - "8080:80"
+      - 8080:80
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+
+  gateway1:
+    build: ./backend/gateway
+    ports:
+      - 8001:8000
+    environment:
+      SERVER_NAME: first gateway
+      AUTH_SERVICE_URL: http://auth1:8001
+      ORDER_SERVICE_URL: http://order1:8002
+      PRODUCT_SERVICE_URL: http://product1:8003
+
+  gateway2:
+    build: ./backend/gateway
+    ports:
+      - 8002:8000
+    environment:
+      SERVER_NAME: second gateway
+      AUTH_SERVICE_URL: http://auth2:8001
+      ORDER_SERVICE_URL: http://order2:8002
+      PRODUCT_SERVICE_URL: http://product2:8003
+
+  gateway3:
+    build: ./backend/gateway
+    ports:
+      - 8003:8000
+    environment:
+      SERVER_NAME: third gateway
+      AUTH_SERVICE_URL: http://auth3:8001
+      ORDER_SERVICE_URL: http://order3:8002
+      PRODUCT_SERVICE_URL: http://product3:8003
+
+  auth1:
+    build: ./backend/services/auth
+    env_file:
+      - ./backend/services/auth/.env
+    ports:
+      - 5001:8001
+
+  auth2:
+    build: ./backend/services/auth
+    env_file:
+      - ./backend/services/auth/.env
+    ports:
+      - 5002:8001
+
+  auth3:
+    build: ./backend/services/auth
+    env_file:
+      - ./backend/services/auth/.env
+    ports:
+      - 5003:8001
+
+  order1:
+    build: ./backend/services/order
+    env_file:
+      - ./backend/services/order/.env
+    ports:
+      - 5004:8002
+
+  order2:
+    build: ./backend/services/order
+    env_file:
+      - ./backend/services/order/.env
+    ports:
+      - 5005:8002
+
+  order3:
+    build: ./backend/services/order
+    env_file:
+      - ./backend/services/order/.env
+    ports:
+      - 5006:8002
+
+  product1:
+    build: ./backend/services/product
+    env_file:
+      - ./backend/services/product/.env
+    ports:
+      - 5007:8003
+
+  product2:
+    build: ./backend/services/product
+    env_file:
+      - ./backend/services/product/.env
+    ports:
+      - 5008:8003
+
+  product3:
+    build: ./backend/services/product
+    env_file:
+      - ./backend/services/product/.env
+    ports:
+      - 5009:8003
